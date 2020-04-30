@@ -1,11 +1,11 @@
-from flask import request, Blueprint
-from flask_restplus import Api, Resource, fields
+from flask import request
+from flask_restplus import Namespace, Resource, fields
 from marshmallow import Schema, fields as ma_fields, post_load
 from flaskblog import db, bcrypt
 from flaskblog.models import User
 
-user_namespace = Blueprint('api', __name__, url_prefix='/api/user')
-api = Api(user_namespace)
+api = Namespace('users', description='Users endpoints')
+
 create_user_model = api.model('Model', {
     'username': fields.String(),
     'email': fields.String(),

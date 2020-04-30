@@ -1,11 +1,11 @@
-from flask import request, Blueprint
-from flask_restplus import Api, Resource, fields
+from flask import request
+from flask_restplus import Namespace, Resource, fields
 from marshmallow import Schema, fields as ma_fields, post_load
 from flaskblog import db
 from flaskblog.models import Post
 
-post_namespace = Blueprint('api_post', __name__, url_prefix='/api/post')
-api = Api(post_namespace)
+
+api = Namespace('posts', description='Posts endpoints')
 create_post_model = api.model('Model', {
     'title': fields.String(),
     'content': fields.String(),
