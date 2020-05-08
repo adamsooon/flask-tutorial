@@ -5,13 +5,11 @@ from flask_login import LoginManager
 from flask_mail import Mail
 from dotenv import load_dotenv
 from flaskblog.config import Config
-# from flask_restplus import Api
 
 load_dotenv()
 
 db = SQLAlchemy()
 bcrypt = Bcrypt()
-# api = Api()
 login_manager = LoginManager()
 # login_manager.login_view = 'users.login'
 login_manager.login_message_category = 'info'

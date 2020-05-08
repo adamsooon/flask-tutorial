@@ -3,7 +3,7 @@ from flask_restplus import Namespace, Resource, fields
 from marshmallow import Schema, fields as ma_fields, post_load
 from flaskblog import db
 from flaskblog.models import Post
-
+from flaskblog.utils.token_required import token_required
 
 api = Namespace('posts', description='Posts endpoints')
 create_post_model = api.model('Model', {
@@ -86,6 +86,7 @@ class PostGetter(Resource):
 
 @api.route('/all')
 class UsersGetter(Resource):
+    @token_required
     def get(self):
         posts = Post.query.all()
         return users_schema.dump(posts)

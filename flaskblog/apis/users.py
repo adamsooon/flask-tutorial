@@ -1,8 +1,9 @@
-from flask import request
+from flask import request, jsonify
 from flask_restplus import Namespace, Resource, fields
 from marshmallow import Schema, fields as ma_fields, post_load
 from flaskblog import db, bcrypt
 from flaskblog.models import User
+from flaskblog.users.utils import send_reset_email
 
 api = Namespace('users', description='Users endpoints')
 
@@ -89,8 +90,7 @@ class UsersGetter(Resource):
 class UsersResetPassword(Resource):
     def post(self):
         data = request.get_json()
-        user = User.query.get(data['user_id'])
-        hashed_password = bcrypt.generate_password_hash(data['password']).decode('utf-8')
-        user.password = hashed_password
-        db.session.commit()
-        return users_schema.dump(user)
+        email = data['email']
+        user = User.query.filter_by(email=email).first()
+        send_reset_email(user)
+        return jsonify({'message': 'email has been sent'})
